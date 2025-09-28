@@ -20,7 +20,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
-        prepend-inner-icon="mdi-server"
+        prepend-inner-icon="mdi-rename-box"
       />
 
       <!-- Selección de servicio -->
@@ -33,7 +33,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
-        prepend-inner-icon="mdi-cog"
+        prepend-inner-icon="mdi-cube-outline"
       />
 
       <!-- Recursos -->

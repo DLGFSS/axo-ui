@@ -12,6 +12,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
+        prepend-inner-icon="mdi-shield-plus-outline"
       />
 
       <!-- Roles -->
@@ -27,6 +28,7 @@
         variant="filled"
         :rules="[rules.minOne]"
         required
+        prepend-inner-icon="mdi-account-group"
       />
 
       <!-- Requiere autenticación -->

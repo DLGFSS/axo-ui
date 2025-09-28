@@ -34,42 +34,38 @@
               <div class="w-50">
                 <v-row>
                   <v-col cols="12" sm="6">
-                    <p>First Name</p>
                     <v-text-field 
                     placeholder="First Name" 
-                    variant="outlined" 
+                    variant="filled" 
                     density="compact"
                     :model-value= "userStore.user.first_name" 
                     ></v-text-field>
                   </v-col>
 
                   <v-col cols="12" sm="6">
-                    <p>Last Name</p>
                     <v-text-field 
                     placeholder="Last Name" 
-                    variant="outlined" 
+                    variant="filled" 
                     density="compact"
                     :model-value= "userStore.user.last_name"
                     ></v-text-field>
                   </v-col>
 
                   <v-col cols="12" sm="12">
-                    <p>About</p>
                     <v-textarea
                       placeholder="About"
                       row-height="25"
                       rows="3"
-                      variant="outlined"
+                      variant="filled"
                       auto-grow
                       shaped
                     ></v-textarea>
                   </v-col>
 
                   <v-col cols="12" sm="6">
-                    <p>Username</p>
                     <v-text-field 
                     placeholder="Username" 
-                    variant="outlined" 
+                    variant="filled" 
                     density="compact"
                     :model-value= "userStore.user.username"
                     ></v-text-field>

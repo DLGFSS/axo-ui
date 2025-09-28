@@ -30,7 +30,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
-        prepend-inner-icon="mdi-shield-lock"
+        prepend-inner-icon="mdi-shield-key"
       />
 
       <!-- Recursos -->

@@ -19,7 +19,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
-        prepend-inner-icon="mdi-account"
+        prepend-inner-icon="mdi-account-edit"
       />
 
       <!-- Descripción -->

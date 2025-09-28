@@ -19,7 +19,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
-        prepend-inner-icon="mdi-api"
+        prepend-inner-icon="mdi-server-plus"
       />
 
       <!-- Imagen -->
@@ -68,7 +68,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
-        prepend-inner-icon="mdi-shield-lock"
+        prepend-inner-icon="mdi-shield-key"
       />
 
       <!-- Botón Guardar -->

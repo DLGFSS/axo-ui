@@ -26,7 +26,7 @@
         item-value="endpoint_id"
         label="Endpoint"
         variant="filled"
-        prepend-inner-icon="mdi-cube-outline"
+        prepend-inner-icon="mdi-server"
       />
 
       <!-- Servicio (guía) -->
@@ -50,11 +50,10 @@
       item-value="microservice_id"
       label="Microservice"
       variant="filled"
-      prepend-inner-icon="mdi-cogs"
+      prepend-inner-icon="mdi-view-grid"
       :disabled="!selectedService"
       @update:model-value="onMicroserviceChange"
     />
-
 
       <!-- Version editable -->
       <v-text-field
