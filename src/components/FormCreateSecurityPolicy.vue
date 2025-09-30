@@ -12,6 +12,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
+        prepend-inner-icon="mdi-shield-plus-outline"
       />
 
       <!-- Roles -->
@@ -27,20 +28,21 @@
         variant="filled"
         :rules="[rules.minOne]"
         required
+        prepend-inner-icon="mdi-account-group"
       />
 
       <!-- Requiere autenticación -->
       <v-switch
         v-model="securityPoliciesStore.form.requires_authentication"
         label="Requires authentication?"
-        color="#11222eff"
+        color="#040404"
       />
 
       <!-- Botón Guardar -->
       <div class="d-flex mt-4" data-step="save-policy-button">
         <v-btn
           :loading="securityPoliciesStore.loading"
-          color="#11222eff"
+          color="#040404"
           size="large"
           type="submit"
           variant="elevated"

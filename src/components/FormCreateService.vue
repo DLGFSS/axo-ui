@@ -30,7 +30,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
-        prepend-inner-icon="mdi-shield-lock"
+        prepend-inner-icon="mdi-shield-key"
       />
 
       <!-- Recursos -->
@@ -64,7 +64,7 @@
         <v-btn
           data-step="save-service-button"
           :loading="servicesStore.loading"
-          color="#11222eff"
+          color="#040404"
           size="large"
           type="submit"
           variant="elevated"

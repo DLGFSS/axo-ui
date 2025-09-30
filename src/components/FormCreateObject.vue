@@ -26,7 +26,7 @@
         item-value="endpoint_id"
         label="Endpoint"
         variant="filled"
-        prepend-inner-icon="mdi-cube-outline"
+        prepend-inner-icon="mdi-server"
       />
 
       <!-- Servicio (guía) -->
@@ -50,7 +50,7 @@
       item-value="microservice_id"
       label="Microservice"
       variant="filled"
-      prepend-inner-icon="mdi-cogs"
+      prepend-inner-icon="mdi-view-grid"
       :disabled="!selectedService"
       @update:model-value="onMicroserviceChange"
     />
@@ -92,9 +92,9 @@
       <!-- Botón Guardar -->
       <div class="d-flex mt-4">
         <v-btn
-          data-step="persistency-button"
+          d11222effep="persistency-button"
           :loading="activeObjectsStore.loading"
-          color="#11222eff"
+          color="#040404"
           size="large"
           type="submit"
           variant="elevated"

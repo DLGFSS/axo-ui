@@ -19,7 +19,7 @@
         variant="filled"
         :rules="[rules.required]"
         required
-        prepend-inner-icon="mdi-account"
+        prepend-inner-icon="mdi-account-edit"
       />
 
       <!-- Descripción -->
@@ -53,7 +53,7 @@
       <div class="d-flex mt-4" data-step="rol-button">
         <v-btn
           :loading="rolesStore.loading"
-          color="#11222eff"
+          color="#040404"
           size="large"
           type="submit"
           variant="elevated"

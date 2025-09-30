@@ -71,7 +71,7 @@ import CardVariant from "@/components/CardVariant.vue"
 import { useEndpointsStore } from "@/store/endpoints"
 import { ref, onMounted, computed } from "vue"
 import router from "@/router"
-import endpoint from "@/assets/axo_endpoint_assets.png"
+import endpoint from "@/assets/icon-endpoint.png"
 
 const endpointsStore = useEndpointsStore()
 const currentSearch = ref("")

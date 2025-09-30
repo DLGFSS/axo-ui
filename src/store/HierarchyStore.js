@@ -2,6 +2,8 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import OA from "@/assets/axo_OA_assets.png"
+import micro from "@/assets/axo_microser_assets.png"
+import icon_ser from "@/assets/axo_service_assets.png"
 
 const CRYPTOMESH_URL = `http://localhost:19000`
 const CRYPTOMESH_API_VERSION = `v1`
@@ -11,10 +13,12 @@ function mapHierarchyToTree(data) {
         id: service.service_id,
         label: service.service_name,
         type: "service",
+        icon: icon_ser,
         children: service.microservices.map(ms => ({
             id: ms.microservice_id,
             label: ms.microservice_name,
             type: "microservice",
+            icon: micro,
             children: ms.active_objects.map(ao => ({
                 id: ao.active_object_id,
                 label: ao.alias || ao.object_name || "Unnamed OA",

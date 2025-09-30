@@ -62,7 +62,7 @@
     <v-card-actions class="d-flex justify-end mt-2">
       <v-btn
         variant="outlined"
-        color="grey"
+        color="red"
         class="rounded-lg"
         @click="$emit('close')"
       >
@@ -71,6 +71,7 @@
       </v-btn>
 
       <v-btn
+        variant="outlined"
         color="primary"
         class="rounded-lg"
         @click="saveConfig"
