@@ -170,8 +170,14 @@ const createBucket = () => {
     selectable: true,
     draggable: true,
     connectable: true,
-    originData: { id: newId, class_name: "Bucket", type: "Bucket", icon: bucket,sink_bucket_id: "",
-      sink_key: "", },
+    originData: { 
+      id: newId, 
+      class_name: "Bucket", 
+      type: "Bucket", 
+      icon: bucket,
+      sink_bucket_id: "",
+      // sink_key: "", // 🔒 Comentado
+    },
   })
 }
 
@@ -271,9 +277,7 @@ const buildChoreographyYAML = () => {
       triggerByNodeId.set(node.id, trig)
     })
 
-  // ---------- 2) analizar edges para:
-  //    a) OA -> Bucket   (escritor del bucket)
-  //    b) Bucket -> OA   (lector del bucket)  y set depends_on
+  // ---------- 2) analizar edges ----------
   const writerByBucketNodeId = new Map()
 
   edges.value.forEach(edge => {
@@ -284,41 +288,38 @@ const buildChoreographyYAML = () => {
     const sIsBucket = s.originData.class_name === "Bucket"
     const tIsBucket = t.originData.class_name === "Bucket"
 
-    // a) OA -> Bucket  => este OA "escribe" en ese bucket
+    // a) OA -> Bucket
     if (!sIsBucket && tIsBucket) {
       const writerTrig = triggerByNodeId.get(s.id)
       if (writerTrig) {
         writerByBucketNodeId.set(t.id, writerTrig.name)
 
-        // Propagar dónde va a escribir (sink) al call del writer
         const sinkBucketId = t.originData.sink_bucket_id
-        const sinkKey      = t.originData.sink_key
-        if (sinkBucketId && sinkKey) {
+        // const sinkKey      = t.originData.sink_key // 🔒 Comentado
+        if (sinkBucketId /* && sinkKey */) {
           writerTrig.rule.parameters.call = {
             ...(writerTrig.rule.parameters.call || {}),
             sink_bucket_id: sinkBucketId,
-            sink_key: sinkKey,
+            // sink_key: sinkKey, // 🔒 Comentado
           }
         }
       }
     }
 
-    // b) Bucket -> OA  => este OA "lee" del bucket; depende del writer si existe
+    // b) Bucket -> OA
     if (sIsBucket && !tIsBucket) {
       const readerTrig = triggerByNodeId.get(t.id)
       if (readerTrig) {
-        // Propagar de qué bucket lee (source) al init del reader
         const sourceBucketId = s.originData.sink_bucket_id
-        const sourceKey      = s.originData.sink_key
-        if (sourceBucketId && sourceKey) {
+        // const sourceKey      = s.originData.sink_key // 🔒 Comentado
+        if (sourceBucketId /* && sourceKey */) {
           readerTrig.rule.parameters.init = {
             ...(readerTrig.rule.parameters.init || {}),
             source_bucket_id: sourceBucketId,
-            source_key: sourceKey,
+            // source_key: sourceKey, // 🔒 Comentado
           }
         }
 
-        // Si ya conocemos quién escribió ese bucket, setear depends_on
         const writerName = writerByBucketNodeId.get(s.id)
         if (writerName && !readerTrig.depends_on) {
           readerTrig.depends_on = writerName
@@ -326,7 +327,7 @@ const buildChoreographyYAML = () => {
       }
     }
 
-    // c) OA -> OA directo (por si también lo usas)
+    // c) OA -> OA directo
     if (!sIsBucket && !tIsBucket) {
       const srcTrig = triggerByNodeId.get(s.id)
       const dstTrig = triggerByNodeId.get(t.id)
@@ -336,7 +337,7 @@ const buildChoreographyYAML = () => {
     }
   })
 
-  // ---------- 3) topological sort por depends_on ----------
+  // ---------- 3) topological sort ----------
   const ordered = []
   const visited = new Set()
   const byName = new Map(triggers.map(t => [t.name, t]))
@@ -350,16 +351,6 @@ const buildChoreographyYAML = () => {
 
   triggers.forEach(visit)
 
-  // ---------- logs ----------
-  console.log("edges (raw):", JSON.parse(JSON.stringify(edges.value)))
-  console.log("writerByBucketNodeId:", Object.fromEntries(writerByBucketNodeId))
-  console.log("triggers (unsorted):", triggers.map(t => ({
-    name: t.name, depends_on: t.depends_on
-  })))
-  console.log("triggers (ordered):", ordered.map(t => ({
-    name: t.name, depends_on: t.depends_on
-  })))
-
   const choreography = { triggers: ordered }
   console.log("Choreography JSON (raw):", JSON.stringify(choreography, null, 2))
   console.log("Choreography YAML:\n", yaml.dump(choreography))
@@ -368,13 +359,12 @@ const buildChoreographyYAML = () => {
 }
 
 const buildChoreographyJSON = () => {
-  // ---------- helpers ----------
+  // helpers
   const getTriggerName = (node) =>
     `${node.data.label.replace(/\s+/g, "")}_${node.originData.method || "run"}`
 
   const findNode = (id) => nodes.value.find(n => n.id === id)
 
-  // ---------- 1) construir triggers base ----------
   const triggers = []
   const triggerByNodeId = new Map()
 
@@ -399,9 +389,6 @@ const buildChoreographyJSON = () => {
       triggerByNodeId.set(node.id, trig)
     })
 
-  // ---------- 2) analizar edges para:
-  //    a) OA -> Bucket   (escritor del bucket)
-  //    b) Bucket -> OA   (lector del bucket)  y set depends_on
   const writerByBucketNodeId = new Map()
 
   edges.value.forEach(edge => {
@@ -412,41 +399,38 @@ const buildChoreographyJSON = () => {
     const sIsBucket = s.originData.class_name === "Bucket"
     const tIsBucket = t.originData.class_name === "Bucket"
 
-    // a) OA -> Bucket  => este OA "escribe" en ese bucket
+    // a) OA -> Bucket
     if (!sIsBucket && tIsBucket) {
       const writerTrig = triggerByNodeId.get(s.id)
       if (writerTrig) {
         writerByBucketNodeId.set(t.id, writerTrig.name)
 
-        // Propagar dónde va a escribir (sink) al call del writer
         const sinkBucketId = t.originData.sink_bucket_id
-        const sinkKey      = t.originData.sink_key
-        if (sinkBucketId && sinkKey) {
+        // const sinkKey      = t.originData.sink_key // 🔒 Comentado
+        if (sinkBucketId /* && sinkKey */) {
           writerTrig.rule.parameters.call = {
             ...(writerTrig.rule.parameters.call || {}),
             sink_bucket_id: sinkBucketId,
-            sink_key: sinkKey,
+            // sink_key: sinkKey, // 🔒 Comentado
           }
         }
       }
     }
 
-    // b) Bucket -> OA  => este OA "lee" del bucket; depende del writer si existe
+    // b) Bucket -> OA
     if (sIsBucket && !tIsBucket) {
       const readerTrig = triggerByNodeId.get(t.id)
       if (readerTrig) {
-        // Propagar de qué bucket lee (source) al init del reader
         const sourceBucketId = s.originData.sink_bucket_id
-        const sourceKey      = s.originData.sink_key
-        if (sourceBucketId && sourceKey) {
-          readerTrig.rule.parameters.init = {
-            ...(readerTrig.rule.parameters.init || {}),
+        // const sourceKey      = s.originData.sink_key // 🔒 Comentado
+        if (sourceBucketId /* && sourceKey */) {
+          readerTrig.rule.parameters.call = {
+            ...(readerTrig.rule.parameters.call || {}),
             source_bucket_id: sourceBucketId,
-            source_key: sourceKey,
+            // source_key: sourceKey, // 🔒 Comentado
           }
         }
 
-        // Si ya conocemos quién escribió ese bucket, setear depends_on
         const writerName = writerByBucketNodeId.get(s.id)
         if (writerName && !readerTrig.depends_on) {
           readerTrig.depends_on = writerName
@@ -454,7 +438,7 @@ const buildChoreographyJSON = () => {
       }
     }
 
-    // c) OA -> OA directo (por si también lo usas)
+    // c) OA -> OA directo
     if (!sIsBucket && !tIsBucket) {
       const srcTrig = triggerByNodeId.get(s.id)
       const dstTrig = triggerByNodeId.get(t.id)
@@ -464,7 +448,6 @@ const buildChoreographyJSON = () => {
     }
   })
 
-  // ---------- 3) topological sort por depends_on ----------
   const ordered = []
   const visited = new Set()
   const byName = new Map(triggers.map(t => [t.name, t]))
@@ -478,22 +461,11 @@ const buildChoreographyJSON = () => {
 
   triggers.forEach(visit)
 
-  
-  console.log("edges (raw):", JSON.parse(JSON.stringify(edges.value)))
-  console.log("writerByBucketNodeId:", Object.fromEntries(writerByBucketNodeId))
-  console.log("triggers (unsorted):", triggers.map(t => ({
-    name: t.name, depends_on: t.depends_on
-  })))
-  console.log("triggers (ordered):", ordered.map(t => ({
-    name: t.name, depends_on: t.depends_on
-  })))
-
   const choreography = { triggers: ordered }
   console.log("Choreography JSON (raw):", JSON.stringify(choreography, null, 2))
   console.log("Choreography YAML:\n", yaml.dump(choreography))
 
-  return {format: "yaml", 
-          content: yaml.dump(choreography),}   
+  return {format: "yaml", content: yaml.dump(choreography)}   
 }
 
 const handleSaveConfig = (updated) => {
@@ -508,7 +480,7 @@ const handleSaveConfig = (updated) => {
         originData: {
           ...node.originData,
           sink_bucket_id: updated.sink_bucket_id,
-          sink_key: updated.sink_key,
+          // sink_key: updated.sink_key, // 🔒 Comentado
         }
       }
     } else {
@@ -592,8 +564,6 @@ const onConnect = (params) => {
   })
 }
 </script>
-
-
 
 <style>
 .flow-wrap {
