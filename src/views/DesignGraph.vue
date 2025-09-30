@@ -13,7 +13,7 @@
           </button>
 
           <button class="btn primary" @click="reconfigureSelected" data-step="edit-selection-button">
-            <img :src="OA" alt="configure" class="btn-icon" />
+            <img :src="OB" alt="configure" class="btn-icon btn-icon-large"/>
              Edit Selection
           </button>
 
@@ -105,6 +105,7 @@ import "@vue-flow/core/dist/style.css"
 import "@vue-flow/core/dist/theme-default.css"
 import yaml from "js-yaml"
 import OA from "@/assets/axo_OA_assets.png"
+import OB from "@/assets/activeO_Bucket.png"
 import bucket from "@/assets/axo_bucket_assets.png"
 import clean from "@/assets/icons-clean.png"
 import iconrun from "@/assets/icon-run.png"
@@ -670,5 +671,11 @@ const onConnect = (params) => {
   stroke: #3b82f6 !important; /* azul vivo */
   stroke-width: 3px !important;
 }
+
+.btn-icon-large {
+  width: 55px;
+  height: 55px;
+}
+
 
 </style>
