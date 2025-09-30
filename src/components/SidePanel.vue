@@ -173,7 +173,7 @@ onMounted(async () => {
 }
 
 .counter {
-  background: #3b82f6;
+  background: #585b61;
   color: white;
   font-size: 12px;
   font-weight: bold;
