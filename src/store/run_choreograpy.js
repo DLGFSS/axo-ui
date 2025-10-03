@@ -54,9 +54,32 @@ export const useChoreographyStore = defineStore("choreography", () => {
     }
   }
 
+  async function sendGraph(graphJson) {
+    loading.value = true
+    try {
+      const response = await fetch(`${SHIELDX_URL}/api/${API_VERSION}/graph`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(graphJson),
+      })
+
+      if (!response.ok) throw new Error("Failed to send graph")
+
+      const result = await response.json()
+      return { color: "success", data: result }
+    } catch (error) {
+      console.error("Error", error)
+      return { color: "error", message: error?.message ?? "Unknown error" }
+    } finally {
+      loading.value = false
+    }
+  }
+
+
   return {
     loading,
     interpretChoreography,
     interpretChoreographyYaml,
+    sendGraph,
   }
 })
