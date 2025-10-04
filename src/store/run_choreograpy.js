@@ -57,7 +57,7 @@ export const useChoreographyStore = defineStore("choreography", () => {
   async function sendGraph(graphJson) {
     loading.value = true
     try {
-      const response = await fetch(`${SHIELDX_URL}/api/${API_VERSION}/graph`, {
+      const response = await fetch(`${SHIELDX_URL}/api/${API_VERSION}/choreography/run`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(graphJson),
